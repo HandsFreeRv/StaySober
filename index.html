@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinning Wheel</title>
+    <script src="https://cdn.jsdelivr.net/npm/winwheel@2.7.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spinning Wheel</h1>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <button onclick="startSpin()">Spin the Wheel</button>
+
+    <script>
+        // Create a new spinning wheel
+        const theWheel = new Winwheel({
+            'numSegments': 8, // Number of segments
+            'segments': [
+                {'fillStyle': '#eae56f', 'text': 'Option 1'},
+                {'fillStyle': '#89f26e', 'text': 'Option 2'},
+                {'fillStyle': '#7de6ef', 'text': 'Winner!'},
+                {'fillStyle': '#e7706f', 'text': 'Option 4'},
+                {'fillStyle': '#eae56f', 'text': 'Option 5'},
+                {'fillStyle': '#89f26e', 'text': 'Option 6'},
+                {'fillStyle': '#7de6ef', 'text': 'Option 7'},
+                {'fillStyle': '#e7706f', 'text': 'Option 8'}
+            ],
+            'animation': {
+                'type': 'spinToStop',
+                'duration': 5, // Duration in seconds
+                'spins': 8,    // Number of spins
+                'callbackFinished': alertSegment
+            }
+        });
+
+        // Function to start spinning the wheel
+        function startSpin() {
+            // Set the stop angle to land on "Winner!" segment (Segment 3)
+            const stopAngle = theWheel.getRandomForSegment(3);
+            theWheel.animation.stopAngle = stopAngle;
+            theWheel.startAnimation();
+        }
+
+        // Function to alert the result
+        function alertSegment(indicatedSegment) {
+            alert(`The wheel landed on: ${indicatedSegment.text}`);
+        }
+    </script>
+</body>
+</html>
